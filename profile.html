@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Profile | Misheck Portfolio</title>
+
+<!-- Favicon -->
+<link rel="icon" type="image/png" href="images/logo.png">
+
+
+<style>
+*{
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
+  font-family:'Poppins',sans-serif;
+}
+
+body{
+  background: radial-gradient(circle at top, #0b0b0f, #050508);
+  color:#fff;
+}
+
+/* ================= NAVBAR (SAME AS DASHBOARD) ================= */
+.navbar{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  padding:16px 50px;
+  background:rgba(10,10,15,0.65);
+  backdrop-filter: blur(18px);
+  border-bottom:1px solid rgba(212,175,55,0.2);
+  position:sticky;
+  top:0;
+  z-index:1000;
+}
+
+.logo{
+  font-size:22px;
+  font-weight:700;
+}
+
+.logo span{
+  color:#d4af37;
+}
+
+.nav-links{
+  display:flex;
+  gap:15px;
+}
+
+.nav-links a{
+  color:#cbd5e1;
+  text-decoration:none;
+  padding:8px 12px;
+  border-radius:10px;
+}
+
+.nav-links a.active,
+.nav-links a:hover{
+  color:#d4af37;
+  background:rgba(212,175,55,0.12);
+  border:1px solid rgba(212,175,55,0.3);
+}
+
+/* HERO */
+.hero{
+  text-align:center;
+  padding:40px 20px;
+}
+
+.hero h1{
+  font-size:40px;
+}
+
+.hero span{
+  color:#d4af37;
+}
+
+/* PROFILE IMAGE */
+.profile{
+  width:140px;
+  height:140px;
+  border-radius:50%;
+  overflow:hidden;
+  margin:20px auto;
+  border:3px solid #d4af37;
+}
+
+.profile img{
+  width:100%;
+  height:100%;
+  object-fit:cover;
+}
+
+/* CARD */
+.card{
+  width:360px;
+  margin:30px auto;
+  background:rgba(255,255,255,0.03);
+  border:1px solid rgba(212,175,55,0.12);
+  border-radius:16px;
+  padding:20px;
+  text-align:center;
+}
+
+/* EDIT AREA */
+.edit-area{
+  display:none;
+  margin-top:10px;
+}
+
+input{
+  width:100%;
+  padding:10px;
+  margin-top:8px;
+  border-radius:10px;
+  border:1px solid rgba(212,175,55,0.15);
+  background:rgba(255,255,255,0.03);
+  color:white;
+}
+
+/* BUTTONS */
+button{
+  width:100%;
+  padding:10px;
+  margin-top:10px;
+  border:none;
+  border-radius:10px;
+  font-weight:bold;
+  cursor:pointer;
+}
+
+.editBtn{background:#d4af37;}
+.saveBtn{background:#00c853; display:none;}
+.cancelBtn{background:#ff3b3b; display:none;}
+
+/* STATS */
+.stats{
+  display:flex;
+  justify-content:space-between;
+  margin-top:15px;
+}
+
+.stat{
+  width:48%;
+  padding:10px;
+  border-radius:12px;
+  background:rgba(255,255,255,0.03);
+  border:1px solid rgba(212,175,55,0.1);
+}
+
+.stat h3{
+  color:#d4af37;
+}
+/* FOOTER */
+.footer{
+  text-align:center;
+  padding:20px;
+  margin-top:20px;
+  border-top:1px solid rgba(212,175,55,0.15);
+  color:#777;
+}
+</style>
+</head>
+
+<body>
+
+<!-- NAVBAR -->
+<div class="navbar">
+  <div class="logo">My<span>Portfolio</span></div>
+
+  <div class="nav-links">
+    <a href="index.html">Dashboard</a>
+    <a href="projects.html">Projects</a>
+    <a class="active" href="profile.html">Profile</a>
+    <a href="about.html">About</a>
+    <a href="timetable.html">Timetable</a>
+  </div>
+</div>
+
+<!-- HERO -->
+<div class="hero">
+  <h1>Welcome, <span id="nameView">User</span></h1>
+
+  <div class="profile">
+    <img id="imgView" src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e">
+  </div>
+</div>
+
+<!-- PROFILE CARD -->
+<div class="card">
+
+  <!-- VIEW MODE -->
+  <p style="color:#aaa;">🟢 Active Profile</p>
+
+  <!-- EDIT AREA -->
+  <div id="editArea" class="edit-area">
+    <input id="nameInput" placeholder="Edit name">
+    <input type="file" id="imgInput">
+    <input type="password" id="passInput" placeholder="Enter password">
+  </div>
+
+  <!-- BUTTONS -->
+  <button class="editBtn" onclick="enableEdit()">Edit Profile</button>
+  <button class="saveBtn" id="saveBtn" onclick="save()">Save Changes</button>
+  <button class="cancelBtn" id="cancelBtn" onclick="cancelEdit()">Cancel</button>
+
+  <!-- STATS -->
+  <div class="stats">
+    <div class="stat">
+      <h3 id="projCount">0</h3>
+      <p>Projects</p>
+    </div>
+
+    <div class="stat">
+      <h3>Online</h3>
+      <p>Status</p>
+    </div>
+  </div>
+
+</div>
+<!-- FOOTER -->
+<div class="footer">
+  © 2026 MyPortfolio | Built with passion and consistency | by Misheckkarani
+</div>
+
+<script>
+
+const PASSWORD = "meshack@@2026";
+
+/* INIT */
+function init(){
+  load();
+  loadProjects();
+}
+
+/* LOAD PROFILE */
+function load(){
+  const name = localStorage.getItem("userName") || "User";
+  const img = localStorage.getItem("profileImage");
+
+  document.getElementById("nameView").innerText = name;
+  document.getElementById("nameInput").value = name;
+
+  if(img){
+    document.getElementById("imgView").src = img;
+  }
+}
+
+/* EDIT MODE */
+function enableEdit(){
+  document.getElementById("editArea").style.display = "block";
+  document.querySelector(".editBtn").style.display = "none";
+  document.getElementById("saveBtn").style.display = "block";
+  document.getElementById("cancelBtn").style.display = "block";
+}
+
+/* CANCEL */
+function cancelEdit(){
+  document.getElementById("editArea").style.display = "none";
+  document.querySelector(".editBtn").style.display = "block";
+  document.getElementById("saveBtn").style.display = "none";
+  document.getElementById("cancelBtn").style.display = "none";
+}
+
+/* SAVE */
+function save(){
+
+  const pass = document.getElementById("passInput").value;
+
+  if(pass !== PASSWORD){
+    alert("Wrong password!");
+    return;
+  }
+
+  const name = document.getElementById("nameInput").value;
+  const file = document.getElementById("imgInput").files[0];
+
+  if(name){
+    localStorage.setItem("userName", name);
+  }
+
+  if(file){
+    const reader = new FileReader();
+    reader.onload = e=>{
+      localStorage.setItem("profileImage", e.target.result);
+      document.getElementById("imgView").src = e.target.result;
+    };
+    reader.readAsDataURL(file);
+  }
+
+  cancelEdit();
+  load();
+}
+
+/* PROJECT COUNT */
+function loadProjects(){
+  const p = JSON.parse(localStorage.getItem("projects")) || [];
+  document.getElementById("projCount").innerText = p.length;
+}
+
+init();
+
+</script>
+
+</body>
+</html>

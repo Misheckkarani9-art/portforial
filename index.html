@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Dashboard | Misheck Portfolio</title>
+
+<!-- Favicon -->
+<link rel="icon" type="image/png" href="images/logo.png">
+
+
+<style>
+*{
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
+  font-family:'Poppins',sans-serif;
+}
+
+body{
+  background: radial-gradient(circle at top, #0b0b0f, #050508);
+  color:#fff;
+}
+
+/* NAVBAR */
+.navbar{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  padding:16px 50px;
+  background:rgba(10,10,15,0.65);
+  backdrop-filter: blur(18px);
+  border-bottom:1px solid rgba(212,175,55,0.2);
+  position:sticky;
+  top:0;
+  z-index:1000;
+}
+
+.logo{
+  font-size:22px;
+  font-weight:700;
+}
+
+.logo span{
+  color:#d4af37;
+}
+
+.nav-links{
+  display:flex;
+  gap:15px;
+}
+
+.nav-links a{
+  color:#cbd5e1;
+  text-decoration:none;
+  padding:8px 12px;
+  border-radius:10px;
+}
+
+.nav-links a.active,
+.nav-links a:hover{
+  color:#d4af37;
+  background:rgba(212,175,55,0.12);
+  border:1px solid rgba(212,175,55,0.3);
+}
+
+/* HERO */
+.hero{
+  text-align:center;
+  padding:40px 20px;
+}
+
+.hero h1{
+  font-size:40px;
+}
+
+.hero span{
+  color:#d4af37;
+}
+
+.profile{
+  width:140px;
+  height:140px;
+  border-radius:50%;
+  overflow:hidden;
+  margin:20px auto;
+  border:3px solid #d4af37;
+}
+
+.profile img{
+  width:100%;
+  height:100%;
+  object-fit:cover;
+}
+
+/* GRID */
+.grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(230px,1fr));
+  gap:20px;
+  padding:30px 60px;
+}
+
+.card{
+  background:rgba(255,255,255,0.03);
+  border:1px solid rgba(212,175,55,0.12);
+  border-radius:16px;
+  padding:20px;
+  text-align:center;
+  transition:0.3s;
+}
+
+.card:hover{
+  transform:translateY(-6px);
+  border-color:#d4af37;
+}
+
+.card h3{
+  color:#d4af37;
+}
+
+.card h1{
+  margin-top:10px;
+}
+
+/* SECTIONS */
+.section{
+  padding:10px 60px 40px;
+}
+
+.section h2{
+  color:#d4af37;
+  margin-bottom:15px;
+}
+
+/* QUICK ACTIONS */
+.actions{
+  display:flex;
+  gap:10px;
+  flex-wrap:wrap;
+}
+
+.actions button{
+  padding:10px 14px;
+  border:none;
+  border-radius:10px;
+  cursor:pointer;
+  background:#d4af37;
+  font-weight:bold;
+}
+
+/* TIMETABLE PREVIEW */
+.timeline{
+  display:grid;
+  gap:10px;
+}
+
+.item{
+  background:rgba(255,255,255,0.03);
+  border:1px solid rgba(212,175,55,0.12);
+  padding:12px;
+  border-radius:12px;
+}
+
+.item span{
+  color:#d4af37;
+  font-weight:bold;
+}
+
+/* FOOTER */
+.footer{
+  text-align:center;
+  padding:20px;
+  margin-top:20px;
+  border-top:1px solid rgba(212,175,55,0.15);
+  color:#777;
+}
+</style>
+</head>
+
+<body>
+
+<!-- NAVBAR -->
+<div class="navbar">
+  <div class="logo">My<span>Portfolio</span></div>
+
+  <div class="nav-links">
+    <a class="active" href="index.html">Dashboard</a>
+    <a href="projects.html">Projects</a>
+    <a href="profile.html">Profile</a>
+    <a href="about.html">About</a>
+    <a href="timetable.html">Timetable</a>
+  </div>
+</div>
+
+<!-- HERO -->
+<div class="hero">
+  <h1>Welcome, <span id="userName">Developer</span></h1>
+
+  <div class="profile">
+    <img id="profileImg" src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e">
+  </div>
+</div>
+
+<!-- STATS -->
+<div class="grid">
+  <div class="card">
+    <h3>Projects</h3>
+    <h1 id="projectsCount">0</h1>
+  </div>
+
+  <div class="card">
+    <h3>Clients</h3>
+    <h1 id="clientsCount">0</h1>
+  </div>
+
+  <div class="card">
+    <h3>Success</h3>
+    <h1>98%</h1>
+  </div>
+
+  <div class="card">
+    <h3>Status</h3>
+    <h1>Online 🟢</h1>
+  </div>
+</div>
+
+<!-- QUICK ACTIONS -->
+<div class="section">
+  <h2>⚡ Quick Actions</h2>
+  <div class="actions">
+    <button onclick="location.href='projects.html'">Add Project</button>
+    <button onclick="location.href='timetable.html'">Open Timetable</button>
+    <button onclick="location.href='about.html'">About Me</button>
+  </div>
+</div>
+
+<!-- TODAY TIMETABLE -->
+<div class="section">
+  <h2>📅 Today’s Focus</h2>
+  <div id="today" class="timeline"></div>
+</div>
+
+<!-- FOOTER -->
+<div class="footer">
+  © 2026 MyPortfolio | Built with passion and consistency | by Misheckkarani
+</div>
+
+<script>
+
+/* PROFILE */
+function loadProfile(){
+  const img = localStorage.getItem("profileImage");
+  if(img) document.getElementById("profileImg").src = img;
+}
+loadProfile();
+
+/* NAME */
+function loadName(){
+  const name = localStorage.getItem("userName");
+  if(name) document.getElementById("userName").innerText = name;
+}
+loadName();
+
+/* COUNTS */
+function loadProjects(){
+  const p = JSON.parse(localStorage.getItem("projects")) || [];
+  document.getElementById("projectsCount").innerText = p.length;
+}
+loadProjects();
+
+function loadClients(){
+  const c = JSON.parse(localStorage.getItem("clients")) || [];
+  document.getElementById("clientsCount").innerText = c.length;
+}
+loadClients();
+
+/* TODAY TIMETABLE */
+function loadToday(){
+  const data = JSON.parse(localStorage.getItem("timetable")) || [];
+  const todayBox = document.getElementById("today");
+
+  const todayItems = data.slice(0,4);
+
+  if(todayItems.length === 0){
+    todayBox.innerHTML = "<p style='color:#aaa'>No timetable added yet</p>";
+    return;
+  }
+
+  todayItems.forEach(item=>{
+    todayBox.innerHTML += `
+      <div class="item">
+        <span>${item.title}</span><br>
+        ${item.time}<br>
+        <small>${item.note || ""}</small>
+      </div>
+    `;
+  });
+}
+
+loadToday();
+
+</script>
+
+</body>
+</html>

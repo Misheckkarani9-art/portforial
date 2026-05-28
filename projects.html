@@ -1,0 +1,405 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Projects | Portfolio</title>
+
+<!-- Favicon -->
+<link rel="icon" type="image/png" href="images/logo.png">
+
+
+<style>
+*{
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
+  font-family:'Poppins',sans-serif;
+}
+
+body{
+  background: radial-gradient(circle at top, #0b0b0f, #050508);
+  color:#fff;
+}
+
+/* NAVBAR (UNCHANGED STYLE) */
+.navbar{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  padding:16px 50px;
+  background:rgba(10,10,15,0.65);
+  backdrop-filter: blur(18px);
+  border-bottom:1px solid rgba(212,175,55,0.2);
+  position:sticky;
+  top:0;
+  z-index:1000;
+}
+
+.logo{
+  font-size:22px;
+  font-weight:700;
+}
+
+.logo span{color:#d4af37;}
+
+.nav-links{
+  display:flex;
+  gap:15px;
+}
+
+.nav-links a{
+  color:#cbd5e1;
+  text-decoration:none;
+  padding:8px 12px;
+  border-radius:10px;
+}
+
+.nav-links a.active,
+.nav-links a:hover{
+  color:#d4af37;
+  background:rgba(212,175,55,0.12);
+  border:1px solid rgba(212,175,55,0.3);
+}
+
+/* TOP BAR */
+.topbar{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  padding:20px 60px;
+  flex-wrap:wrap;
+  gap:10px;
+}
+
+.topbar input{
+  padding:10px 14px;
+  border-radius:10px;
+  border:1px solid rgba(212,175,55,0.2);
+  background:rgba(255,255,255,0.03);
+  color:white;
+  width:220px;
+  outline:none;
+}
+
+/* LAYOUT */
+.container{
+  display:grid;
+  grid-template-columns:1fr 2.2fr;
+  gap:25px;
+  padding:20px 60px;
+}
+
+/* PANEL */
+.panel{
+  background:rgba(255,255,255,0.04);
+  backdrop-filter: blur(18px);
+  padding:20px;
+  border-radius:18px;
+  border:1px solid rgba(212,175,55,0.15);
+  height:fit-content;
+}
+
+.panel h2{
+  color:#d4af37;
+  margin-bottom:10px;
+}
+
+input, textarea, select{
+  width:100%;
+  margin:8px 0;
+  padding:12px;
+  border-radius:12px;
+  border:1px solid rgba(212,175,55,0.15);
+  background:rgba(255,255,255,0.03);
+  color:white;
+}
+
+/* BUTTON */
+button{
+  width:100%;
+  padding:12px;
+  background:#d4af37;
+  border:none;
+  border-radius:12px;
+  font-weight:700;
+  cursor:pointer;
+  color:#000;
+  transition:0.3s;
+}
+
+button:hover{
+  transform:translateY(-2px);
+}
+
+/* GRID */
+.grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
+  gap:22px;
+}
+
+/* CARD */
+.card{
+  background:rgba(255,255,255,0.03);
+  border:1px solid rgba(212,175,55,0.12);
+  border-radius:18px;
+  overflow:hidden;
+  transition:0.3s;
+  cursor:pointer;
+}
+
+.card:hover{
+  transform:translateY(-6px);
+  border-color:#d4af37;
+}
+
+.card img{
+  width:100%;
+  height:160px;
+  object-fit:cover;
+}
+
+.card-content{
+  padding:15px;
+}
+
+.card h3{color:#d4af37;}
+
+.tags{
+  font-size:12px;
+  color:#aaa;
+  margin-top:8px;
+}
+
+/* ACTION BUTTONS */
+.actions{
+  display:flex;
+  gap:8px;
+  margin-top:10px;
+}
+
+.actions button{
+  flex:1;
+  padding:8px;
+  font-size:12px;
+  border-radius:8px;
+}
+
+.delete{background:red; color:white;}
+.edit{background:#00c853; color:white;}
+
+/* EMPTY */
+.empty{
+  text-align:center;
+  color:#aaa;
+  margin-top:40px;
+}
+.dropdown{
+  background-color: #aaa;
+  color: #eb1809;
+  font-weight: bold;
+}
+.dropdown:hover{
+  font-weight: lighter;
+}
+/* FOOTER */
+.footer{
+  text-align:center;
+  padding:20px;
+  margin-top:20px;
+  border-top:1px solid rgba(212,175,55,0.15);
+  color:#777;
+}
+</style>
+</head>
+
+<body>
+
+<!-- NAVBAR -->
+<div class="navbar">
+  <div class="logo">My<span>Portfolio</span></div>
+
+  <div class="nav-links">
+    <a href="index.html">Dashboard</a>
+    <a class="active" href="projects.html">Projects</a>
+    <a href="profile.html">Profile</a>
+    <a href="about.html">About</a>
+    <a href="timetable.html">Timetable</a>
+  </div>
+</div>
+
+<!-- TOP BAR -->
+<div class="topbar">
+  <input id="search" placeholder="Search projects..." oninput="render()">
+
+  <select id="filter" onchange="render()" class="dropdown">
+    <option value="All">All</option>
+    <option value="Web">Web</option>
+    <option value="Mobile">Mobile</option>
+    <option value="UI/UX">UI/UX</option>
+    <option value="AI">AI</option>
+  </select>
+</div>
+
+<!-- MAIN -->
+<div class="container">
+
+  <!-- PANEL -->
+  <div class="panel">
+    <h2>➕ Add Project</h2>
+
+    <input id="title" placeholder="Title">
+    <textarea id="desc" placeholder="Description"></textarea>
+
+    <select id="category">
+      <option>Web</option>
+      <option>Mobile</option>
+      <option>UI/UX</option>
+      <option>AI</option>
+    </select>
+
+    <input id="tags" placeholder="Tags">
+    <input type="file" id="img">
+
+    <button onclick="add()">Save Project</button>
+  </div>
+
+  <!-- GRID -->
+  <div id="grid" class="grid"></div>
+
+</div>
+<!-- FOOTER -->
+<div class="footer">
+  © 2026 MyPortfolio | Built with passion and consistency | by Misheckkarani
+</div>
+
+<script>
+
+let editIndex = null;
+
+function get(){
+  return JSON.parse(localStorage.getItem("projects")) || [];
+}
+
+function save(data){
+  localStorage.setItem("projects", JSON.stringify(data));
+}
+
+/* ADD OR EDIT */
+function add(){
+
+  const data = get();
+
+  const obj = {
+    title: title.value,
+    desc: desc.value,
+    category: category.value,
+    tags: tags.value,
+    img: ""
+  };
+
+  if(img.files[0]){
+    const reader = new FileReader();
+    reader.onload = e=>{
+      obj.img = e.target.result;
+
+      if(editIndex !== null){
+        data[editIndex] = obj;
+        editIndex = null;
+      }else{
+        data.push(obj);
+      }
+
+      save(data);
+      render();
+    };
+    reader.readAsDataURL(img.files[0]);
+  }else{
+
+    if(editIndex !== null){
+      data[editIndex] = obj;
+      editIndex = null;
+    }else{
+      data.push(obj);
+    }
+
+    save(data);
+    render();
+  }
+}
+
+/* DELETE */
+function del(i){
+  const data = get();
+  data.splice(i,1);
+  save(data);
+  render();
+}
+
+/* EDIT */
+function edit(i){
+  const p = get()[i];
+
+  title.value = p.title;
+  desc.value = p.desc;
+  category.value = p.category;
+  tags.value = p.tags;
+
+  editIndex = i;
+}
+
+/* RENDER */
+function render(){
+
+  const grid = document.getElementById("grid");
+  const data = get();
+
+  let filtered = data;
+
+  const f = filter.value;
+  const s = search.value.toLowerCase();
+
+  if(f !== "All"){
+    filtered = filtered.filter(p=>p.category===f);
+  }
+
+  if(s){
+    filtered = filtered.filter(p=>
+      p.title.toLowerCase().includes(s) ||
+      p.desc.toLowerCase().includes(s)
+    );
+  }
+
+  grid.innerHTML = "";
+
+  if(filtered.length===0){
+    grid.innerHTML = "<div class='empty'>No projects found</div>";
+    return;
+  }
+
+  filtered.forEach((p,i)=>{
+    grid.innerHTML += `
+      <div class="card">
+        <img src="${p.img || 'https://via.placeholder.com/400'}">
+        <div class="card-content">
+          <h3>${p.title}</h3>
+          <p>${p.desc}</p>
+          <div class="tags">${p.category} | ${p.tags}</div>
+
+          <div class="actions">
+            <button class="edit" onclick="edit(${i})">Edit</button>
+            <button class="delete" onclick="del(${i})">Delete</button>
+          </div>
+        </div>
+      </div>
+    `;
+  });
+}
+
+render();
+
+</script>
+
+</body>
+</html>
